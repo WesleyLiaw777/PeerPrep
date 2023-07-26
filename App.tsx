@@ -1,37 +1,25 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  Text,
-  useColorScheme,
-} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {WebView} from 'react-native-webview';
 
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
+const PEER_PREP = 'https://ecme.acep.org/diweb/assessment/self/home/self-eid/6508050/self-sid/163563942'
 
-import { WebView } from 'react-native-webview'
-
-export default function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
+export default function App() {
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <ScrollView
-        style={backgroundStyle}>
-        <Text>yo</Text>
-      </ScrollView>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <View style={{width: '100%', height: '100%'}}>
+        <WebView source={{uri: PEER_PREP}} />
+      </View>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 28,
+    flex: 1,
+    backgroundColor: '#222',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
