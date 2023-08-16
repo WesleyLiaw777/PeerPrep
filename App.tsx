@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View, SafeAreaView} from 'react-native';
 import WebView, {WebViewMessageEvent} from 'react-native-webview';
 import {WithSplashScreen} from './components/Splash';
 
@@ -23,9 +23,8 @@ export default function App() {
   const webViewRef = useRef<WebView>(null);
   const onMessage = (event: WebViewMessageEvent) => {
     const url = event.nativeEvent.data;
-    if (webViewRef.current) {
-      webViewRef.current.injectJavaScript(`window.location.href = '${url}';`); // Redirect to the URL from the clicked link
-    }
+    webViewRef.current &&
+      webViewRef.current.injectJavaScript(`window.location.href = '${url}';`);
   };
 
   useEffect(() => {
@@ -35,16 +34,18 @@ export default function App() {
 
   return (
     <WithSplashScreen isAppReady={isAppReady}>
-      <View style={styles.container}>
-        <View style={{width: '100%', height: '100%'}}>
-          <WebView
-            ref={webViewRef}
-            source={{uri: PEER_PREP}}
-            injectedJavaScript={injectJavascriptCode}
-            onMessage={onMessage}
-          />
+      <SafeAreaView style={{flex: 1}}>
+        <View style={styles.container}>
+          <View style={{width: '100%', height: '100%'}}>
+            <WebView
+              ref={webViewRef}
+              source={{uri: PEER_PREP}}
+              injectedJavaScript={injectJavascriptCode}
+              onMessage={onMessage}
+            />
+          </View>
         </View>
-      </View>
+      </SafeAreaView>
     </WithSplashScreen>
   );
 }
